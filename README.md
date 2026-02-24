@@ -11,6 +11,10 @@ Visual novel engine powered by .ksc (Kaede Script) with platform abstraction (IE
 |---|---|---|
 | [`@kaedevn/interpreter`](./packages/interpreter) | 0.1.0 | .ksc スクリプトインタプリタ |
 
+## 実行結果
+
+![コンソールデモ実行結果](./packages/interpreter/docs/demo-screenshot.png)
+
 ## クイックスタート
 
 ```bash
