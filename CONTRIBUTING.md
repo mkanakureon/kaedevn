@@ -1,25 +1,28 @@
-# Contributing to kaedevn
+# Using kaedevn
 
-Thank you for your interest in contributing to kaedevn!
+This repository is a reference implementation synced from a private monorepo. Pull requests are not accepted.
 
-## Development Setup
+## How to Use
+
+Fork this repository and adapt it to your own project.
 
 ```bash
-git clone https://github.com/mkanakureon/kaedevn.git
+# Fork on GitHub, then:
+git clone https://github.com/YOUR_NAME/kaedevn.git
 cd kaedevn
 npm install
 npm run build
 npm test
 ```
 
-### Project Structure
+## Project Structure
 
 ```
 packages/
   interpreter/  — .ksc script interpreter
 ```
 
-### Useful Commands
+## Useful Commands
 
 ```bash
 npm run build          # Build
@@ -28,24 +31,12 @@ npm run typecheck      # Type-check
 npm run demo           # Run console demo
 ```
 
-## Making Changes
-
-1. Fork the repository and create a feature branch from `main`
-2. Make your changes with clear, descriptive commits
-3. Add or update tests for any new functionality
-4. Ensure all tests pass: `npm test`
-5. Submit a pull request
-
 ## Coding Standards
 
 - **Language**: TypeScript (strict mode)
 - **Module system**: ESM (`"type": "module"`)
 - **Code identifiers**: English
 
-## Security Vulnerabilities
-
-Please see [SECURITY.md](./SECURITY.md) for reporting security issues.
-
 ## License
 
-By contributing, you agree that your contributions will be licensed under the MIT License.
+MIT

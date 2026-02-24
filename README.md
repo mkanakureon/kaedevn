@@ -37,9 +37,11 @@ choice {
 }
 ```
 
-## Contributing
+## Usage
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for development setup and guidelines.
+This repository is published as a reference implementation. Fork it and adapt to your own project.
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for development setup.
 
 ## License
 
