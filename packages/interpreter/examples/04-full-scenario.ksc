@@ -1,0 +1,299 @@
+// ===== デモスクリプト: 学園恋愛ノベル =====
+// Phase 7-3: 統合テスト用の完全なシナリオ
+// 全機能の動作確認: 変数、関数、if文、choice、文字列補間、ラベル
+
+// ===== 変数初期化 =====
+affection = 0
+name = "太郎"
+flag_library = false
+flag_rooftop = false
+flag_confession = false
+day = 1
+
+// ===== 関数定義 (Phase 5) =====
+
+// 好感度から表情を判定する関数
+def mood(aff) {
+  if (aff >= 8) {
+    return "happy"
+  }
+  if (aff >= 4) {
+    return "normal"
+  }
+  return "sad"
+}
+
+// 好感度に応じたメッセージを返す
+def affection_message(aff) {
+  if (aff >= 10) {
+    return "とても好き"
+  }
+  if (aff >= 7) {
+    return "好き"
+  }
+  if (aff >= 4) {
+    return "普通"
+  }
+  return "微妙"
+}
+
+// ===== サブルーチン定義 =====
+
+// 現在の好感度を表示
+sub show_affection() {
+  #narrator
+  現在の好感度: {affection} ({affection_message(affection)})
+  #
+}
+
+// 朝の挨拶イベント
+sub morning_greeting() {
+  #heroine
+  おはよう、{name}くん！
+  #
+
+  #hero
+  おはよう
+  #
+
+  affection += 1
+  show_affection()
+}
+
+// ===== メインストーリー =====
+
+*start
+bg("school_gate")
+bgm("daily_life")
+
+#narrator
+{day}日目の朝
+#
+
+#hero
+今日も学校に来たな
+{name}はどうしてるかな
+#
+
+call("morning_greeting")
+
+// 選択肢による分岐 (Phase 4)
+choice {
+  "一緒に帰ろう" {
+    affection += 2
+    jump("go_home_together")
+  }
+  "図書室に寄らない？" if (affection >= 3) {
+    flag_library = true
+    affection += 1
+    jump("library_event")
+  }
+  "屋上で話そう" if (affection >= 5) {
+    flag_rooftop = true
+    affection += 2
+    jump("rooftop_event")
+  }
+  "用事があるんだ" {
+    affection -= 1
+    jump("decline")
+  }
+}
+
+// ===== 一緒に帰るルート =====
+*go_home_together
+bg("street_evening")
+timeline("walk_home")
+
+#heroine
+今日は楽しかったね
+#
+
+#hero
+うん、そうだね
+#
+
+// 好感度チェック (Phase 3)
+if (affection >= 5 && (flag_library || flag_rooftop)) {
+  #heroine
+  あのね...話したいことがあるの
+  #
+  jump("confession")
+}
+
+if (affection >= 3) {
+  jump("normal_ending")
+}
+
+jump("bad_ending")
+
+// ===== 図書室イベント =====
+*library_event
+bg("library")
+
+#heroine
+この本、面白そうだね
+{name}くんも読書好きなの？
+#
+
+#hero
+まあ、たまに読むよ
+#
+
+#narrator
+図書室で二人きりの時間を過ごした
+#
+
+affection += 1
+show_affection()
+
+jump("go_home_together")
+
+// ===== 屋上イベント =====
+*rooftop_event
+bg("school_rooftop")
+
+#heroine
+ここなら誰にも邪魔されないね
+#
+
+#hero
+そうだね...静かでいいところだ
+#
+
+#narrator
+屋上で二人きりの時間を過ごした
+好感度が大きく上昇した
+#
+
+affection += 2
+show_affection()
+
+jump("go_home_together")
+
+// ===== 断るルート =====
+*decline
+bg("street_evening")
+
+#heroine
+そっか...
+また明日ね
+#
+
+#narrator
+彼女は少し寂しそうに帰っていった
+#
+
+jump("bad_ending")
+
+// ===== 告白イベント =====
+*confession
+bg("school_rooftop_sunset")
+bgm("emotional_theme")
+ch("heroine", mood(affection), "center")
+
+#heroine
+{name}くん、私...
+ずっと好きでした！
+#
+
+choice {
+  "僕も好きだよ" {
+    flag_confession = true
+    affection += 5
+    jump("true_ending")
+  }
+  "友達でいよう" {
+    affection -= 3
+    jump("friend_ending")
+  }
+}
+
+// ===== トゥルーエンド =====
+*true_ending
+timeline("ending_true")
+bg("sunset_sky")
+
+#narrator
+トゥルーエンド
+{name}と彼女は付き合うことになった
+#
+
+#heroine
+これから、ずっと一緒だよ
+#
+
+#narrator
+好感度: {affection}
+クリアフラグ: 図書室={flag_library} 屋上={flag_rooftop}
+#
+
+// エンド後の統計表示
+sub show_statistics() {
+  #narrator
+  === プレイ統計 ===
+  最終好感度: {affection}
+  達成エンディング: トゥルー
+  表情: {mood(affection)}
+  #
+}
+
+call("show_statistics")
+
+// 終了
+#narrator
+ゲームをプレイしてくださりありがとうございました
+#
+
+// ===== ノーマルエンド =====
+*normal_ending
+timeline("ending_normal")
+bg("classroom")
+
+#narrator
+ノーマルエンド
+二人は良い友人関係を続けた
+#
+
+#heroine
+また明日ね、{name}くん
+#
+
+#narrator
+好感度: {affection}
+クリアフラグ: 図書室={flag_library} 屋上={flag_rooftop}
+#
+
+// ===== バッドエンド =====
+*bad_ending
+timeline("ending_bad")
+bg("street_night")
+
+#narrator
+バッドエンド
+二人の距離は縮まらなかった
+#
+
+#heroine
+...
+#
+
+#narrator
+好感度: {affection}
+#
+
+// ===== 友達エンド =====
+*friend_ending
+bg("school_gate")
+
+#narrator
+友達エンド
+二人は友人として過ごすことにした
+#
+
+#heroine
+これからも、よろしくね
+#
+
+#narrator
+好感度: {affection}
+#

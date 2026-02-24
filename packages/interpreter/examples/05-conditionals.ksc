@@ -1,0 +1,103 @@
+// 条件分岐のサンプル: if / else if / else
+
+bg("classroom")
+
+// 変数初期化
+score = 75
+rank = ""
+
+// ===== 基本の if =====
+#narrator
+テスト結果を発表します
+#
+
+if (score >= 90) {
+  rank = "A"
+  #narrator
+  素晴らしい成績です！
+  #
+}
+
+// ===== if / else =====
+passed = false
+
+if (score >= 60) {
+  passed = true
+  #narrator
+  合格です
+  #
+} else {
+  #narrator
+  不合格です。再試験を受けてください
+  #
+}
+
+// ===== if / else if / else =====
+if (score >= 90) {
+  rank = "A"
+} else if (score >= 80) {
+  rank = "B"
+} else if (score >= 70) {
+  rank = "C"
+} else if (score >= 60) {
+  rank = "D"
+} else {
+  rank = "F"
+}
+
+#narrator
+あなたの成績はランク {rank} です
+#
+
+// ===== ネストした条件分岐 =====
+bonus_points = 0
+has_extra_credit = true
+
+if (passed) {
+  if (has_extra_credit) {
+    bonus_points = 10
+    #narrator
+    追加課題のボーナス: +10点
+    #
+  }
+
+  final_score = score + bonus_points
+
+  if (final_score >= 80) {
+    #narrator
+    最終スコア {final_score} 点で優秀賞です！
+    #
+  } else {
+    #narrator
+    最終スコア {final_score} 点です
+    #
+  }
+}
+
+// ===== 論理演算子を使った条件 =====
+age = 16
+has_permission = true
+
+if (age >= 18 || has_permission) {
+  #narrator
+  参加が許可されました
+  #
+}
+
+if (age >= 15 && age < 18) {
+  #narrator
+  未成年ですが、保護者の許可があります
+  #
+}
+
+negative = !has_permission
+
+if (!negative) {
+  #narrator
+  否定演算子の確認: OK
+  #
+}
+
+#narrator
+条件分岐のデモ完了！
+#

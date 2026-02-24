@@ -1,0 +1,129 @@
+// 組み込みコマンド一覧のサンプル
+
+// ===== 背景 =====
+bg("title_screen")
+
+#narrator
+コマンドデモを開始します
+#
+
+// 通常の背景設定
+bg("classroom")
+
+// エフェクト付き
+bg("school_corridor", "fade")
+
+// ===== キャラクター表示 =====
+
+// 基本: 名前、ポーズ
+ch("hero", "normal")
+
+// 位置指定
+ch("hero", "smile", "center")
+
+// フェード時間指定（ms）
+ch("heroine", "normal", "right", 500)
+
+// ===== キャラクターアニメーション =====
+ch_anim("heroine", "wave", "right")
+
+#hero
+おはよう
+#
+
+#heroine
+おはよう！
+#
+
+// ===== キャラクター非表示 =====
+
+// 基本
+ch_hide("hero")
+
+// フェード時間指定
+ch_hide("heroine", 300)
+
+// ===== 全キャラクタークリア =====
+ch("hero", "normal", "left")
+ch("heroine", "smile", "right")
+
+// 全員非表示
+ch_clear()
+
+// フェード時間指定で全員非表示
+ch("hero", "normal", "center")
+ch_clear(500)
+
+// ===== BGM =====
+
+// 基本再生
+bgm("daily_life")
+
+#narrator
+BGM 再生中...
+#
+
+wait(500)
+
+// 音量指定（0.0 - 1.0）
+bgm("battle_theme", 0.8)
+
+wait(500)
+
+// 音量 + フェード時間
+bgm("emotional", 0.6, 1000)
+
+wait(500)
+
+// BGM 停止
+bgm_stop()
+
+// フェード停止
+bgm("daily_life")
+wait(300)
+bgm_stop(1000)
+
+// ===== 効果音 =====
+
+// 基本再生
+se("click")
+
+// 音量指定
+se("explosion", 0.5)
+
+// ===== ボイス =====
+voice("hero_line_001")
+
+#hero
+ボイス付きのセリフです
+#
+
+// ===== 待機 =====
+
+// 時間待機（ms）
+#narrator
+1秒待機します
+#
+wait(1000)
+
+// クリック待ち
+#narrator
+クリックしてください
+#
+waitclick()
+
+// ===== タイムライン =====
+timeline("opening_animation")
+timeline_play("camera_pan")
+
+// ===== バトル =====
+#narrator
+バトルを開始します
+#
+
+battle("slime_group")
+
+#narrator
+コマンドデモ完了！
+全17コマンドの使い方を紹介しました
+#

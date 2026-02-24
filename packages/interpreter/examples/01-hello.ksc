@@ -1,0 +1,42 @@
+// Phase 1 動作確認用のサンプルスクリプト
+// セリフ表示と組み込みコマンドの動作確認
+
+// 背景を設定
+bg("school_day")
+
+// キャラクターを表示
+ch("hero", "smile", "center")
+
+// セリフブロック
+#hero
+おはよう。
+今日もいい天気だな。
+#
+
+// キャラクターを追加
+ch("heroine", "smile", "right")
+
+#heroine
+うん、そうだね。
+太郎くん、今日も早いんだね。
+#
+
+// BGMを再生
+bgm("daily")
+
+// 少し待機
+wait(500)
+
+#hero
+それじゃあ、また後でね。
+#
+
+// エフェクト付き背景変更
+bg("school_corridor", "fade")
+
+// キャラを非表示
+ch_hide("hero")
+
+#heroine
+またね...
+#

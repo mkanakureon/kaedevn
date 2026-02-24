@@ -1,0 +1,141 @@
+// 選択肢のサンプル: choice ブロック
+
+bg("school_corridor")
+
+trust = 0
+route = ""
+
+#narrator
+放課後、友人に声をかけられた
+#
+
+ch("friend", "smile", "center")
+
+#friend
+今日の放課後、どうする？
+#
+
+// ===== 基本の choice =====
+choice {
+  "一緒に帰る" {
+    trust += 2
+    route = "walk"
+
+    #friend
+    やった！一緒に帰ろう
+    #
+  }
+  "図書室で勉強する" {
+    trust += 1
+    route = "library"
+
+    #friend
+    真面目だね。私も付き合うよ
+    #
+  }
+  "部活に行く" {
+    route = "club"
+
+    #friend
+    そっか、頑張ってね
+    #
+  }
+}
+
+// ===== 条件付き選択肢 =====
+bg("park")
+ch("friend", "normal", "center")
+
+#narrator
+公園に差し掛かった
+#
+
+#friend
+ちょっと寄り道しない？
+#
+
+choice {
+  "いいよ" {
+    trust += 1
+
+    #friend
+    ありがとう！
+    #
+  }
+  "秘密の場所に行こう" if (trust >= 3) {
+    trust += 3
+
+    #friend
+    え、気になる！行こう行こう！
+    #
+  }
+  "急いでるから..." {
+    trust -= 1
+
+    #friend
+    あ、そうだよね...ごめんね
+    #
+  }
+}
+
+// ===== 選択肢 + ジャンプ =====
+bg("crossroad")
+
+#narrator
+別れ道に来た。信頼度: {trust}
+#
+
+choice {
+  "右の道へ" {
+    jump("right_path")
+  }
+  "左の道へ" {
+    jump("left_path")
+  }
+}
+
+*right_path
+bg("shrine")
+
+#narrator
+神社に着いた
+#
+
+jump("ending")
+
+*left_path
+bg("riverside")
+
+#narrator
+川沿いの道に出た
+#
+
+jump("ending")
+
+// ===== エンディング =====
+*ending
+bg("sunset")
+ch_hide("friend")
+
+#narrator
+今日の信頼度: {trust}
+ルート: {route}
+#
+
+if (trust >= 5) {
+  #narrator
+  親友ルートが解放されました！
+  #
+} else if (trust >= 2) {
+  #narrator
+  友人ルートです
+  #
+} else {
+  #narrator
+  知人ルートです
+  #
+}
+
+#narrator
+選択肢のデモ完了！
+#

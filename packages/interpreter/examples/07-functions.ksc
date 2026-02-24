@@ -1,0 +1,132 @@
+// 関数・サブルーチンのサンプル: def / sub / return
+
+bg("school")
+
+// ===== def: 戻り値のある関数 =====
+
+// 2つの値の大きい方を返す
+def max(a, b) {
+  if (a >= b) {
+    return a
+  }
+  return b
+}
+
+// ランクを判定して文字列で返す
+def get_rank(score) {
+  if (score >= 90) return "S"
+  if (score >= 80) return "A"
+  if (score >= 70) return "B"
+  if (score >= 60) return "C"
+  return "D"
+}
+
+// ボーナスを計算する関数
+def calc_bonus(base, multiplier) {
+  return base * multiplier
+}
+
+// 関数を使う
+math_score = 85
+english_score = 72
+best_score = max(math_score, english_score)
+
+#narrator
+数学: {math_score} 点（ランク {get_rank(math_score)}）
+英語: {english_score} 点（ランク {get_rank(english_score)}）
+最高点: {best_score}
+#
+
+bonus = calc_bonus(best_score, 2)
+
+#narrator
+ボーナスポイント: {bonus}
+#
+
+// ===== sub: 副作用のあるサブルーチン =====
+
+total_points = 0
+
+// ポイントを加算するサブルーチン
+sub add_points(amount) {
+  total_points += amount
+  #narrator
+  +{amount} ポイント（累計: {total_points}）
+  #
+}
+
+// ステータスを表示するサブルーチン
+sub show_status() {
+  #narrator
+  === ステータス ===
+  累計ポイント: {total_points}
+  ランク: {get_rank(total_points)}
+  #
+}
+
+// 演出付きの報酬サブルーチン
+sub reward(reason) {
+  se("fanfare")
+  #narrator
+  {reason}の報酬を獲得！
+  #
+  add_points(20)
+}
+
+// サブルーチンを使う
+#narrator
+クエストを開始します
+#
+
+add_points(10)
+add_points(25)
+
+reward("ボス撃破")
+reward("クエストクリア")
+
+show_status()
+
+// ===== 関数のネスト呼び出し =====
+
+def double(x) {
+  return x * 2
+}
+
+def add_ten(x) {
+  return x + 10
+}
+
+// 関数の戻り値を別の関数に渡す
+result = add_ten(double(5))
+
+#narrator
+double(5) → add_ten(10) = {result}
+#
+
+// ===== 関数内での条件分岐 =====
+
+def evaluate(score, bonus_flag) {
+  if (bonus_flag) {
+    return score + 10
+  }
+  return score
+}
+
+final1 = evaluate(80, true)
+final2 = evaluate(80, false)
+
+#narrator
+ボーナスあり: {final1}
+ボーナスなし: {final2}
+#
+
+// ===== 文字列補間で関数呼び出し =====
+
+#narrator
+最終評価: {get_rank(total_points)}
+ベストスコアの2倍: {double(best_score)}
+#
+
+#narrator
+関数・サブルーチンのデモ完了！
+#

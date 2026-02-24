@@ -1,0 +1,129 @@
+// Phase 3 動作確認: 変数と式評価
+
+bg("game_start")
+
+#narrator
+変数と式評価のデモを開始します
+#
+
+// 変数の初期化
+affection = 0
+score = 0
+name = "太郎"
+
+#narrator
+変数を初期化しました
+好感度: 0
+スコア: 0
+名前: 太郎
+#
+
+// ========== 算術演算 ==========
+*arithmetic
+bg("school")
+
+#narrator
+算術演算のテスト
+#
+
+score = 10 + 20
+affection = score / 10
+
+#narrator
+10 + 20 = 30
+スコア: 30
+好感度: 3
+#
+
+score += 50
+affection = affection * 2
+
+#narrator
+スコアに50追加
+好感度を2倍
+現在のスコア: 80
+現在の好感度: 6
+#
+
+// ========== 条件分岐 ==========
+*check_affection
+bg("classroom")
+
+#narrator
+条件分岐のテスト
+現在の好感度: 6
+#
+
+// if文は Phase 4 で実装予定
+// ここでは変数の準備のみ
+
+choice_available = affection >= 5
+
+// ========== 複雑な式 ==========
+*complex
+bg("library")
+
+#narrator
+複雑な式の評価
+#
+
+result = (affection + score) * 2
+bonus = result / 10
+
+#narrator
+(好感度 + スコア) × 2 の結果: 172
+ボーナス: 17
+#
+
+// ========== 文字列操作 ==========
+*string_test
+bg("cafeteria")
+
+greeting = "こんにちは、"
+message = greeting + name
+
+#narrator
+文字列結合のテスト
+#
+
+// ========== 複合代入 ==========
+*compound_assignment
+bg("gymnasium")
+
+counter = 0
+counter += 1
+counter += 1
+counter += 1
+
+health = 100
+health -= 25
+
+damage = 5
+damage *= 3
+
+#narrator
+複合代入演算のテスト
+カウンター: 3
+体力: 75
+ダメージ: 15
+#
+
+// ========== エンディング ==========
+*ending
+bg("sunset")
+
+final_score = score + affection * 10
+
+#narrator
+最終スコア計算
+基本スコア: 80
+好感度ボーナス: 60
+最終スコア: 140
+#
+
+bgm("ending")
+
+#narrator
+Phase 3 デモ完了！
+変数と式評価が正常に動作しています。
+#
