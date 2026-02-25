@@ -1,0 +1,76 @@
+# Web Preview Dockerfile
+FROM node:20-alpine AS builder
+
+# Monorepo context required for dependencies
+WORKDIR /monorepo
+
+# Copy root package.json and tsconfig
+COPY package*.json ./
+COPY tsconfig.base.json ./
+
+# Copy package dependencies
+COPY packages/core/package*.json ./packages/core/
+COPY packages/core/tsconfig.json ./packages/core/
+COPY packages/compiler/package*.json ./packages/compiler/
+COPY packages/compiler/tsconfig.json ./packages/compiler/
+COPY packages/ksc-compiler/package*.json ./packages/ksc-compiler/
+COPY packages/ksc-compiler/tsconfig.json ./packages/ksc-compiler/
+COPY packages/interpreter/package*.json ./packages/interpreter/
+COPY packages/interpreter/tsconfig.json ./packages/interpreter/
+COPY packages/battle/package*.json ./packages/battle/
+COPY packages/battle/tsconfig.json ./packages/battle/
+COPY packages/web/package*.json ./packages/web/
+COPY packages/web/tsconfig.json ./packages/web/
+
+# Install dependencies
+RUN npm install
+
+# Copy source code
+COPY packages/core ./packages/core
+COPY packages/compiler ./packages/compiler
+COPY packages/ksc-compiler ./packages/ksc-compiler
+COPY packages/interpreter ./packages/interpreter
+COPY packages/battle ./packages/battle
+COPY packages/web ./packages/web
+
+# Build dependencies first
+WORKDIR /monorepo/packages/core
+RUN npm run build
+
+WORKDIR /monorepo/packages/compiler
+RUN npm run build
+
+WORKDIR /monorepo/packages/interpreter
+RUN npm run build
+
+WORKDIR /monorepo/packages/battle
+RUN npm run build
+
+# Build web package with API URL
+WORKDIR /monorepo/packages/web
+
+ARG VITE_API_URL="${VITE_API_URL:-https://your-api.example.com}"
+ENV VITE_API_URL=${VITE_API_URL}
+
+RUN npm run build
+
+# Production stage
+FROM nginx:alpine
+
+# Copy built files
+COPY --from=builder /monorepo/packages/web/dist /usr/share/nginx/html
+
+# Nginx configuration (SPA routing only - API calls go directly from browser)
+RUN echo 'server { \
+    listen 3000; \
+    server_name _; \
+    root /usr/share/nginx/html; \
+    index ksc-demo.html; \
+    location / { \
+        try_files $uri $uri/ /ksc-demo.html; \
+    } \
+}' > /etc/nginx/conf.d/default.conf
+
+EXPOSE 3000
+
+CMD ["nginx", "-g", "daemon off;"]
